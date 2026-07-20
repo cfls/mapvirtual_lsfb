@@ -28,14 +28,41 @@
     @livewireStyles
 </head>
 <body class="antialiased">
-    {{ $slot }}
+<header class="border-b border-[var(--ink-800)] bg-[var(--ink-900)]">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    {{-- MapLibre GL renders the Shortbread vector tiles; the bridge plugin lets it plug into our existing Leaflet map/markers --}}
-    <script src="https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.js"></script>
-    <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
-    <script src="https://unpkg.com/cloudinary-video-player@2/dist/cld-video-player.min.js"></script>
 
-    @livewireScripts
+            <a href="/">
+                <img src="{{ asset('images/cfls.png') }}" alt="CFLS" class="w-20">
+            </a>
+
+{{--        <a href="/" class="flex items-center gap-2">--}}
+{{--            <span class="font-display text-xl tracking-tight text-[var(--paper)]">CFLS</span>--}}
+{{--            <span class="font-mono-label text-[10px] text-[var(--paper-muted)] hidden sm:inline">Centre Federal LSFB</span>--}}
+{{--        </a>--}}
+    </div>
+</header>
+
+{{ $slot }}
+
+<footer class="border-t border-[var(--ink-800)] mt-12">
+    <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+            <span class="font-mono-label text-[11px] text-[var(--paper-muted)]">
+                @php($currentYear = date('Y'))
+                &copy; {{ $currentYear > 2026 ? '2026–'.$currentYear : '2026' }} CFLS. Tous droits reserves.
+            </span>
+        <span class="font-mono-label text-[11px] text-[var(--paper-muted)]">
+                Carte LSFB — Belgique
+            </span>
+    </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+{{-- MapLibre GL renders the Shortbread vector tiles; the bridge plugin lets it plug into our existing Leaflet map/markers --}}
+<script src="https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
+<script src="https://unpkg.com/cloudinary-video-player@2/dist/cld-video-player.min.js"></script>
+
+@livewireScripts
 </body>
 </html>

@@ -7,8 +7,7 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-@tailwind base;
-@tailwind components;
+
 @tailwind utilities;
 
 :root {
@@ -76,6 +75,14 @@ body {
     fill: var(--ink-900);
 }
 
+.leaflet-pin__circle[data-accessible="true"] {
+    fill: #2F855A;
+}
+
+.leaflet-pin__circle[data-accessible="false"] {
+    fill: #C2477E;
+}
+
 .leaflet-pin__pulse {
     fill: none;
     stroke: var(--gold);
@@ -124,6 +131,26 @@ body {
     background: #000;
 }
 
+/* Hide all Cloudinary/video.js chrome except the actual video and the
+   big center play button: control bar, its gradient scrim, the title
+   bar overlay, and the loading spinner. */
+.cld-video-player .vjs-control-bar,
+.cld-video-player .vjs-title-bar,
+.cld-video-player .vjs-loading-spinner,
+.cld-video-player .vjs-text-track-display {
+    display: none !important;
+}
+
+/* video.js draws a bottom gradient behind the control bar via this
+   pseudo-element on .video-js itself (not inside .vjs-control-bar), so
+   hiding the control bar alone doesn't remove it. */
+.cld-video-player.vjs-has-started::before,
+.cld-video-player::before {
+    display: none !important;
+    content: none !important;
+    background: none !important;
+}
+
 /* --- Accessibility: visible keyboard focus everywhere ----------- */
 
 :focus-visible {
@@ -159,9 +186,16 @@ html[data-contrast="high"] .leaflet-pin__teardrop {
 }
 
 html[data-contrast="high"] .leaflet-pin__circle {
-    fill: #FFFFFF;
     stroke: #000000;
-    stroke-width: 1;
+    stroke-width: 1.5;
+}
+
+html[data-contrast="high"] .leaflet-pin__circle[data-accessible="true"] {
+    fill: #145A32;
+}
+
+html[data-contrast="high"] .leaflet-pin__circle[data-accessible="false"] {
+    fill: #7A1F41;
 }
 
 html[data-contrast="high"] .leaflet-pin[data-active="true"] .leaflet-pin__teardrop {

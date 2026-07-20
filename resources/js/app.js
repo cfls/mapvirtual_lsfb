@@ -27,7 +27,18 @@ const BELGIUM_BORDER = [
 function initLeafletMap() {
     const el = document.getElementById('lsfb-leaflet-map');
     if (!el || !window.L || el.dataset.leafletReady) return;
-    el.dataset.leafletReady = 'true';
+
+    try {
+        _initLeafletMap(el);
+        el.dataset.leafletReady = 'true';
+    } catch (e) {
+        console.error('Leaflet map failed to initialize:', e);
+        // Not marking leafletReady, so a later retry (e.g. next Livewire
+        // event) can try again instead of being permanently stuck.
+    }
+}
+
+function _initLeafletMap(el) {
 
     let landmarks = [];
     try {
@@ -44,7 +55,7 @@ function initLeafletMap() {
         BELGIUM_BORDER.map(([lng, lat]) => [lat, lng]),
     );
     map.fitBounds(belgiumBounds, { padding: [8, 8] });
-    map.setZoom(map.getZoom() + 0.6);
+    map.setZoom(map.getZoom() + 0.4);
 
     // Shortbread vector tiles (OpenStreetMap's official vector tile schema),
     // rendered with the free VersaTiles "Colorful" style — no API key
@@ -61,14 +72,14 @@ function initLeafletMap() {
 
     const markersById = {};
 
-    const pinIcon = () => window.L.divIcon({
+    const pinIcon = (landmark) => window.L.divIcon({
         className: '',
         html: `
             <div class="leaflet-pin" data-active="false">
                 <svg class="leaflet-pin__svg" viewBox="0 0 32 40" width="32" height="40">
                     <circle class="leaflet-pin__pulse" cx="16" cy="16" r="11"></circle>
                     <path class="leaflet-pin__teardrop" d="M16 0C7.163 0 0 7.163 0 16c0 11 16 24 16 24s16-13 16-24C32 7.163 24.837 0 16 0z" />
-                    <circle class="leaflet-pin__circle" cx="16" cy="16" r="6" />
+                    <circle class="leaflet-pin__circle" data-accessible="${landmark.accessible ? 'true' : 'false'}" cx="16" cy="16" r="6" />
                 </svg>
             </div>
         `,
@@ -79,7 +90,7 @@ function initLeafletMap() {
     landmarks.forEach((landmark) => {
         if (!landmark.lat || !landmark.lng) return;
 
-        const marker = window.L.marker([landmark.lat, landmark.lng], { icon: pinIcon() }).addTo(map);
+        const marker = window.L.marker([landmark.lat, landmark.lng], { icon: pinIcon(landmark) }).addTo(map);
 
         marker.bindTooltip(landmark.name, {
             direction: 'top',
@@ -102,6 +113,36 @@ function initLeafletMap() {
             const pin = markerEl && markerEl.querySelector('.leaflet-pin');
             if (pin) pin.dataset.active = String(Number(id) === Number(activeId));
         });
+    };
+
+    // Shows only the markers whose id is in `visibleIds` (province
+    // filter) and zooms the map to fit them — otherwise the pins change
+    // but the camera stays zoomed out on the whole country, which reads
+    // as "nothing happened".
+    window.filterLeafletMarkers = (visibleIds) => {
+        const visible = new Set(visibleIds.map(Number));
+        const visibleMarkers = [];
+
+        Object.entries(markersById).forEach(([id, marker]) => {
+            const shouldShow = visible.has(Number(id));
+            const isOnMap = map.hasLayer(marker);
+            if (shouldShow && !isOnMap) marker.addTo(map);
+            if (!shouldShow && isOnMap) map.removeLayer(marker);
+            if (shouldShow) visibleMarkers.push(marker);
+        });
+
+        if (visibleMarkers.length === 0 || visibleMarkers.length === Object.keys(markersById).length) {
+            // Nothing selected, or everything visible ("Toutes les
+            // provinces") — zoom back out to all of Belgium.
+            map.fitBounds(belgiumBounds, { padding: [8, 8] });
+        } else if (visibleMarkers.length === 1) {
+            // fitBounds on a single point would zoom in too far/awkwardly;
+            // center on it with a sensible fixed zoom instead.
+            map.setView(visibleMarkers[0].getLatLng(), 11);
+        } else {
+            const bounds = window.L.latLngBounds(visibleMarkers.map((m) => m.getLatLng()));
+            map.fitBounds(bounds, { padding: [48, 48] });
+        }
     };
 }
 
@@ -141,5 +182,12 @@ document.addEventListener('livewire:init', () => {
             window.updateActiveLeafletMarker(event.id);
         }
         requestAnimationFrame(mountCloudinaryPlayer);
+    });
+
+    Livewire.on('landmarks-filtered', (event) => {
+        if (!window.filterLeafletMarkers) initLeafletMap();
+        if (window.filterLeafletMarkers) {
+            window.filterLeafletMarkers(event.ids || []);
+        }
     });
 });
