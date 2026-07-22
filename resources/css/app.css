@@ -7,7 +7,6 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-
 @tailwind utilities;
 
 :root {
@@ -123,6 +122,44 @@ body {
 
 .detail-panel {
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+/* --- Admin forms ------------------------------------------------- */
+
+.admin-input {
+    background: var(--ink-950);
+    color: var(--paper);
+    border: 1.5px solid #B8C0D0;
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-size: 14px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.admin-input:hover {
+    border-color: var(--gold);
+}
+
+.admin-input:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold-soft);
+}
+
+/* labels above each field — gold, bolder, clearly attached to input */
+.admin-label {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--gold);
+}
+
+/* invalid state (pair with @error to add .admin-input--error) */
+.admin-input--error {
+    border-color: #C2477E;
+    box-shadow: 0 0 0 3px #C2477E1a;
 }
 
 .cld-video-player {

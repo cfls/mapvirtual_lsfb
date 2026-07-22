@@ -24,6 +24,7 @@
     <link href="https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.css" rel="stylesheet" />
     <link href="https://unpkg.com/cloudinary-video-player@2/dist/cld-video-player.min.css" rel="stylesheet">
 
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
@@ -64,5 +65,6 @@
 <script src="https://unpkg.com/cloudinary-video-player@2/dist/cld-video-player.min.js"></script>
 
 @livewireScripts
+<script src="https://cdn.jsdelivr.net/gh/livewire/sortable@v1.x.x/dist/livewire-sortable.js"></script>
 </body>
 </html>

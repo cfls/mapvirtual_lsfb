@@ -19,14 +19,14 @@
                 </label>
 
                 <label class="flex items-center gap-2 font-mono-label text-[11px]">
-                    <span class="text-[var(--paper-muted)] sr-only sm:not-sr-only">LSFB</span>
+                    <span class="text-[var(--paper-muted)] sr-only sm:not-sr-only">ACCESSIBILITE</span>
                     <select
                             wire:model.live="selectedAccessibility"
                             class="bg-[var(--ink-900)] text-[var(--paper)] border border-[var(--ink-800)] rounded-full px-3 py-1.5 text-[11px] font-mono-label focus-visible:outline-none"
                     >
-                        <option value="all">Accessibilite LSFB : tous</option>
-                        <option value="yes">Accessible en LSFB</option>
-                        <option value="no">Non accessible en LSFB</option>
+                        <option value="all">Accessibilite : tous</option>
+                        <option value="yes">Accessible (LSFB ou QR)</option>
+                        <option value="no">Non accessible</option>
                     </select>
                 </label>
 
@@ -72,11 +72,11 @@
         <div class="flex items-center gap-4 mt-1">
             <span class="flex items-center gap-1.5 font-mono-label text-[10px] text-[var(--paper-muted)]">
                 <span class="w-2.5 h-2.5 rounded-full" style="background:#2F855A"></span>
-                Accessible en LSFB sur place
+                Accessible sur place (LSFB et/ou QR code)
             </span>
             <span class="flex items-center gap-1.5 font-mono-label text-[10px] text-[var(--paper-muted)]">
                 <span class="w-2.5 h-2.5 rounded-full" style="background:#C2477E"></span>
-                Non accessible en LSFB sur place
+                Non accessible sur place
             </span>
         </div>
     </header>
@@ -101,7 +101,7 @@
                     'name' => $l->name,
                     'lat' => $l->latitude,
                     'lng' => $l->longitude,
-                    'accessible' => $l->lsfb_accessible,
+                    'accessible' => $l->lsfb_accessible || $l->qr_accessible,
                 ])->filter(fn ($l) => $l['lat'] && $l['lng'])->values()->toJson() }}"
             ></div>
         </div>
@@ -151,12 +151,21 @@
                             @if ($landmark->lsfb_accessible)
                                 <span class="flex items-center gap-1.5 font-mono-label text-[10px] px-2.5 py-1 rounded-full border" style="color:#2F855A; border-color:#2F855A;">
                                     <span class="w-2 h-2 rounded-full" style="background:#2F855A"></span>
-                                    Accessible en LSFB sur place
+                                    Accessible en LSFB (interprete/guide)
                                 </span>
-                            @else
+                            @endif
+
+                            @if ($landmark->qr_accessible)
+                                <span class="flex items-center gap-1.5 font-mono-label text-[10px] px-2.5 py-1 rounded-full border" style="color:#2F855A; border-color:#2F855A;">
+                                    <span class="w-2 h-2 rounded-full" style="background:#2F855A"></span>
+                                    Accessible via QR code
+                                </span>
+                            @endif
+
+                            @if (! $landmark->lsfb_accessible && ! $landmark->qr_accessible)
                                 <span class="flex items-center gap-1.5 font-mono-label text-[10px] px-2.5 py-1 rounded-full border" style="color:#C2477E; border-color:#C2477E;">
                                     <span class="w-2 h-2 rounded-full" style="background:#C2477E"></span>
-                                    Non accessible en LSFB sur place
+                                    Non accessible sur place
                                 </span>
                             @endif
 

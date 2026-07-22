@@ -15,6 +15,7 @@ class Landmark extends Model
         'region',
         'province',
         'lsfb_accessible',
+        'qr_accessible',
         'age_range',
         'excerpt',
         'description',
@@ -35,6 +36,7 @@ class Landmark extends Model
         'latitude' => 'float',
         'longitude' => 'float',
         'lsfb_accessible' => 'boolean',
+        'qr_accessible' => 'boolean',
         'sort_order' => 'integer',
     ];
 

@@ -20,9 +20,9 @@ class InteractiveMap extends Component
     public string $selectedProvince = 'all';
 
     /**
-     * 'all' | 'yes' | 'no' — filters by whether the site itself has
-     * on-site LSFB accessibility (QR code / interpreter), not to be
-     * confused with our own video, which every landmark has.
+     * 'all' | 'yes' | 'no' — filters by whether the site itself has ANY
+     * on-site accessibility (LSFB interpreter/guide OR QR code), not to
+     * be confused with our own video, which every landmark has.
      */
     public string $selectedAccessibility = 'all';
 
@@ -100,7 +100,12 @@ class InteractiveMap extends Component
     {
         return $this->landmarks
             ->when($this->selectedProvince !== 'all', fn ($items) => $items->where('province', $this->selectedProvince))
-            ->when($this->selectedAccessibility !== 'all', fn ($items) => $items->where('lsfb_accessible', $this->selectedAccessibility === 'yes'))
+            ->when($this->selectedAccessibility === 'yes', fn ($items) => $items->filter(
+                fn ($l) => $l->lsfb_accessible || $l->qr_accessible
+            ))
+            ->when($this->selectedAccessibility === 'no', fn ($items) => $items->filter(
+                fn ($l) => ! $l->lsfb_accessible && ! $l->qr_accessible
+            ))
             ->when($this->selectedAgeRange !== 'all', fn ($items) => $items->where('age_range', $this->selectedAgeRange))
             ->pluck('id')
             ->all();
