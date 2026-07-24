@@ -6,12 +6,12 @@
 
             <div class="flex items-center gap-3 flex-wrap">
                 <label class="flex items-center gap-2 font-mono-label text-[11px]">
-                    <span class="text-[var(--paper-muted)] sr-only sm:not-sr-only">PROVINCE</span>
+                    <span class="text-[var(--paper-muted)] sr-only sm:not-sr-only">PROVINCE / RÉGION</span>
                     <select
                             wire:model.live="selectedProvince"
                             class="bg-[var(--ink-900)] text-[var(--paper)] border border-[var(--ink-800)] rounded-full px-3 py-1.5 text-[11px] font-mono-label focus-visible:outline-none"
                     >
-                        <option value="all">Toutes les provinces</option>
+                        <option value="all">Toutes les provinces et Bruxelles-Capitale</option>
                         @foreach ($this->provinces as $province)
                             <option value="{{ $province }}">{{ $province }}</option>
                         @endforeach
@@ -19,24 +19,24 @@
                 </label>
 
                 <label class="flex items-center gap-2 font-mono-label text-[11px]">
-                    <span class="text-[var(--paper-muted)] sr-only sm:not-sr-only">ACCESSIBILITE</span>
+                    <span class="text-[var(--paper-muted)] sr-only sm:not-sr-only">ACCESSIBILITÉ</span>
                     <select
                             wire:model.live="selectedAccessibility"
                             class="bg-[var(--ink-900)] text-[var(--paper)] border border-[var(--ink-800)] rounded-full px-3 py-1.5 text-[11px] font-mono-label focus-visible:outline-none"
                     >
-                        <option value="all">Accessibilite : tous</option>
+                        <option value="all">Tous les types d’accessibilité</option>
                         <option value="yes">Accessible (LSFB ou QR)</option>
                         <option value="no">Non accessible</option>
                     </select>
                 </label>
 
                 <label class="flex items-center gap-2 font-mono-label text-[11px]">
-                    <span class="text-[var(--paper-muted)] sr-only sm:not-sr-only">AGE</span>
+                    <span class="text-[var(--paper-muted)] sr-only sm:not-sr-only">ÂGE</span>
                     <select
                             wire:model.live="selectedAgeRange"
                             class="bg-[var(--ink-900)] text-[var(--paper)] border border-[var(--ink-800)] rounded-full px-3 py-1.5 text-[11px] font-mono-label focus-visible:outline-none"
                     >
-                        <option value="all">Tranche d'age : toutes</option>
+                        <option value="all">Toutes les tranches d’âge</option>
                         @foreach ($this->ageRanges as $ageRange)
                             <option value="{{ $ageRange }}">{{ $ageRange }}</option>
                         @endforeach
@@ -55,17 +55,19 @@
                         class="shrink-0 flex items-center gap-2 font-mono-label text-[11px] px-3 py-1.5 rounded-full border border-[var(--ink-800)] text-[var(--paper)] hover:border-[var(--gold)] transition-colors"
                 >
                     <span class="w-2.5 h-2.5 rounded-full border-2 border-[var(--gold)]" :class="high ? 'bg-[var(--gold)]' : 'bg-transparent'"></span>
-                    <span x-text="high ? 'CONTRASTE ELEVE : ACTIVE' : 'ACTIVER CONTRASTE ELEVE'"></span>
+                    <span x-text="high ? 'CONTRASTE ÉLEVÉ : ACTIVÉ' : 'ACTIVER LE CONTRASTE ÉLEVÉ'"></span>
                 </button>
             </div>
         </div>
 
         <h1 class="font-display text-4xl md:text-5xl leading-tight">
-            Decouvrez la Belgique <span class="text-[var(--gold)]">en LSFB</span>
+            Découvrez la Belgique <span class="text-[var(--gold)]">en LSFB</span>
         </h1>
         <p class="text-[var(--paper-muted)] max-w-xl">
-            Neuf lieux, neuf histoires racontees en langue des signes de Belgique francophone.
-            Touchez un point sur la carte pour lancer la video.
+            Dix provinces et la Région de Bruxelles-Capitale à découvrir en langue des signes de Belgique francophone.
+        </p>
+        <p class="text-[var(--paper-muted)] max-w-xl">
+            Touchez un point sur la carte pour lancer la vidéo.
         </p>
 
         {{-- color legend for the accessibility dots on the pins --}}
@@ -231,7 +233,7 @@
                         </div>
                         <p class="font-display text-lg text-[var(--paper)]">Touchez un point sur la carte</p>
                         <p class="text-sm text-[var(--paper-muted)] max-w-xs">
-                            Chaque repere ouvre une courte video en LSFB qui presente le lieu.
+                            Chaque repère ouvre une courte vidéo en LSFB présentant le lieu.
                         </p>
                     </div>
                 @endif
