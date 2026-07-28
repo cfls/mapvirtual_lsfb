@@ -93,7 +93,17 @@ class InteractiveMap extends Component
 
     protected function applyFilters(): void
     {
-        $this->dispatch('landmarks-filtered', ids: $this->filteredLandmarkIds());
+        $visibleIds = $this->filteredLandmarkIds();
+
+        // If the currently selected landmark is no longer part of the
+        // filtered set (e.g. the user switched to another province), reset
+        // the panel back to its "Touchez un point sur la carte" placeholder
+        // so a landmark from another province isn't left showing.
+        if ($this->selectedLandmarkId && ! in_array($this->selectedLandmarkId, $visibleIds, true)) {
+            $this->closePanel();
+        }
+
+        $this->dispatch('landmarks-filtered', ids: $visibleIds);
     }
 
     protected function filteredLandmarkIds(): array
