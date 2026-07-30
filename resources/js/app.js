@@ -174,6 +174,17 @@ function mountCloudinaryPlayer() {
     player.source(publicId, { poster: poster || undefined });
 }
 
+document.addEventListener('alpine:init', () => {
+    Alpine.store('contrast', {
+        high: document.documentElement.getAttribute('data-contrast') === 'high',
+        toggle() {
+            this.high = !this.high;
+            document.documentElement.setAttribute('data-contrast', this.high ? 'high' : 'normal');
+            try { localStorage.setItem('lsfb-contrast', this.high ? 'high' : 'normal'); } catch (e) {}
+        },
+    });
+});
+
 document.addEventListener('livewire:init', () => {
     initLeafletMap();
 

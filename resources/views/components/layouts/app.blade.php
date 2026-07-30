@@ -30,7 +30,7 @@
 </head>
 <body class="antialiased">
 <header class="border-b border-[var(--ink-800)] bg-[var(--ink-900)]">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
 
 
             <a href="/">
@@ -46,8 +46,8 @@
 
 {{ $slot }}
 
-<footer class="border-t border-[var(--ink-800)] mt-12">
-    <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+<footer class="border-t border-[var(--ink-800)] mt-8 sm:mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
             <span class="font-mono-label text-[11px] text-[var(--paper-muted)]">
                 @php($currentYear = date('Y'))
                 &copy; {{ $currentYear > 2026 ? '2026–'.$currentYear : '2026' }} CFLS. Tous droits reserves.

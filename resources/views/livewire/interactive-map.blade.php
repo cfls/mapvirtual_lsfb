@@ -1,15 +1,15 @@
 <div class="min-h-screen bg-[var(--ink-950)] text-[var(--paper)]">
 
-    <header class="max-w-7xl mx-auto px-6 pt-10 pb-6 flex flex-col gap-2">
-        <div class="flex items-start justify-between gap-4 flex-wrap">
-            <span class="font-mono-label text-xs text-[var(--gold)]">CARTE INTERACTIVE</span>
+    <header class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10 pb-4 sm:pb-6 flex flex-col gap-2">
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+            <span class="font-mono-label text-xs text-[var(--gold)] shrink-0 whitespace-nowrap">CARTE INTERACTIVE</span>
 
-            <div class="flex items-center gap-3 flex-wrap">
-                <label class="flex items-center gap-2 font-mono-label text-[11px]">
-                    <span class="text-[var(--paper-muted)] sr-only sm:not-sr-only">PROVINCE / RÉGION</span>
+            <div class="flex flex-col sm:flex-row sm:flex-wrap lg:flex-nowrap sm:items-center gap-2 sm:gap-3">
+                <label class="flex items-center gap-2 font-mono-label text-[11px] w-full sm:w-auto">
+                    <span class="text-[var(--paper-muted)] sr-only sm:not-sr-only shrink-0">PROVINCE / RÉGION</span>
                     <select
                             wire:model.live="selectedProvince"
-                            class="bg-[var(--ink-900)] text-[var(--paper)] border border-[var(--ink-800)] rounded-full px-3 py-1.5 text-[11px] font-mono-label focus-visible:outline-none"
+                            class="bg-[var(--ink-900)] text-[var(--paper)] border border-[var(--ink-800)] rounded-full px-3 py-1.5 text-[11px] font-mono-label focus-visible:outline-none w-full sm:w-auto sm:max-w-[185px]"
                     >
                         <option value="all">Toutes les provinces et Bruxelles-Capitale</option>
                         @foreach ($this->provinces as $province)
@@ -18,11 +18,11 @@
                     </select>
                 </label>
 
-                <label class="flex items-center gap-2 font-mono-label text-[11px]">
-                    <span class="text-[var(--paper-muted)] sr-only sm:not-sr-only">ACCESSIBILITÉ</span>
+                <label class="flex items-center gap-2 font-mono-label text-[11px] w-full sm:w-auto">
+                    <span class="text-[var(--paper-muted)] sr-only sm:not-sr-only shrink-0">ACCESSIBILITÉ</span>
                     <select
                             wire:model.live="selectedAccessibility"
-                            class="bg-[var(--ink-900)] text-[var(--paper)] border border-[var(--ink-800)] rounded-full px-3 py-1.5 text-[11px] font-mono-label focus-visible:outline-none"
+                            class="bg-[var(--ink-900)] text-[var(--paper)] border border-[var(--ink-800)] rounded-full px-3 py-1.5 text-[11px] font-mono-label focus-visible:outline-none w-full sm:w-auto sm:max-w-[185px]"
                     >
                         <option value="all">Tous les types d’accessibilité</option>
                         <option value="yes">Accessible (LSFB ou QR)</option>
@@ -30,11 +30,11 @@
                     </select>
                 </label>
 
-                <label class="flex items-center gap-2 font-mono-label text-[11px]">
-                    <span class="text-[var(--paper-muted)] sr-only sm:not-sr-only">ÂGE</span>
+                <label class="flex items-center gap-2 font-mono-label text-[11px] w-full sm:w-auto">
+                    <span class="text-[var(--paper-muted)] sr-only sm:not-sr-only shrink-0">ÂGE</span>
                     <select
                             wire:model.live="selectedAgeRange"
-                            class="bg-[var(--ink-900)] text-[var(--paper)] border border-[var(--ink-800)] rounded-full px-3 py-1.5 text-[11px] font-mono-label focus-visible:outline-none"
+                            class="bg-[var(--ink-900)] text-[var(--paper)] border border-[var(--ink-800)] rounded-full px-3 py-1.5 text-[11px] font-mono-label focus-visible:outline-none w-full sm:w-auto sm:max-w-[165px]"
                     >
                         <option value="all">Toutes les tranches d’âge</option>
                         @foreach ($this->ageRanges as $ageRange)
@@ -45,22 +45,18 @@
 
                 <button
                         type="button"
-                        x-data="{ high: document.documentElement.getAttribute('data-contrast') === 'high' }"
-                        x-on:click="
-                        high = !high;
-                        document.documentElement.setAttribute('data-contrast', high ? 'high' : 'normal');
-                        try { localStorage.setItem('lsfb-contrast', high ? 'high' : 'normal'); } catch (e) {}
-                    "
-                        :aria-pressed="high"
-                        class="shrink-0 flex items-center gap-2 font-mono-label text-[11px] px-3 py-1.5 rounded-full border border-[var(--ink-800)] text-[var(--paper)] hover:border-[var(--gold)] transition-colors"
+                        @click="$store.contrast.toggle()"
+                        :aria-pressed="$store.contrast.high"
+                        class="shrink-0 flex items-center justify-center sm:justify-start gap-2 font-mono-label text-[11px] px-3 py-1.5 rounded-full border border-[var(--ink-800)] text-[var(--paper)] hover:border-[var(--gold)] transition-colors w-full sm:w-auto"
                 >
-                    <span class="w-2.5 h-2.5 rounded-full border-2 border-[var(--gold)]" :class="high ? 'bg-[var(--gold)]' : 'bg-transparent'"></span>
-                    <span x-text="high ? 'CONTRASTE ÉLEVÉ : ACTIVÉ' : 'ACTIVER LE CONTRASTE ÉLEVÉ'"></span>
+                    <span class="w-2.5 h-2.5 rounded-full border-2 border-[var(--gold)]" :class="$store.contrast.high ? ‘bg-[var(--gold)]’ : ‘bg-transparent’"></span>
+                    <span class="hidden sm:inline whitespace-nowrap" x-text="$store.contrast.high ? ‘CONTRASTE ÉLEVÉ : ON’ : ‘CONTRASTE ÉLEVÉ’"></span>
+                    <span class="sm:hidden" x-text="$store.contrast.high ? ‘CONTRASTE : ON’ : ‘CONTRASTE ÉLEVÉ’"></span>
                 </button>
             </div>
         </div>
 
-        <h1 class="font-display text-4xl md:text-5xl leading-tight">
+        <h1 class="font-display text-3xl sm:text-4xl md:text-5xl leading-tight">
             Découvrez la Belgique <span class="text-[var(--gold)]">en LSFB</span>
         </h1>
         <p class="text-[var(--paper-muted)] max-w-xl">
@@ -71,7 +67,7 @@
         </p>
 
         {{-- color legend for the accessibility dots on the pins --}}
-        <div class="flex items-center gap-4 mt-1">
+        <div class="flex items-center flex-wrap gap-3 sm:gap-4 mt-1">
             <span class="flex items-center gap-1.5 font-mono-label text-[10px] text-[var(--paper-muted)]">
                 <span class="w-2.5 h-2.5 rounded-full" style="background:#2F855A"></span>
                 Accessible sur place (LSFB et/ou QR code)
@@ -83,10 +79,10 @@
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 pb-16 grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-8 items-start">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-8 sm:pb-16 grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-6 sm:gap-8 items-start">
 
         {{-- ============== MAP CANVAS (Leaflet, real GPS coordinates) ============== --}}
-        <div class="relative z-0 w-full aspect-[4/5] md:aspect-[4/4.4] rounded-2xl border border-[var(--ink-800)] bg-[var(--ink-900)] overflow-hidden">
+        <div class="relative z-0 w-full aspect-[4/3] sm:aspect-[4/4] md:aspect-[4/3.5] lg:aspect-[4/3] rounded-2xl border border-[var(--ink-800)] bg-[var(--ink-900)] overflow-hidden">
 
             {{--
                 wire:ignore is essential here: Leaflet takes full control of
