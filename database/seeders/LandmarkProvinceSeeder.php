@@ -15,15 +15,15 @@ class LandmarkProvinceSeeder extends Seeder
     public function run(): void
     {
         $provinces = [
-            'grand-place-bruxelles'   => 'Bruxelles-Capitale',
-            'beffroi-de-bruges'       => 'Flandre occidentale',
-            'chateau-des-comtes-gand' => 'Flandre orientale',
-            'cathedrale-anvers'       => 'Anvers',
-            'waterloo'                => 'Brabant wallon',
-            'beffroi-mons'            => 'Hainaut',
-            'cathedrale-tournai'      => 'Hainaut',
-            'citadelle-dinant'        => 'Namur',
-            'liege'                   => 'Liège',
+                'grand-place-bruxelles'   => 'Bruxelles-Capitale',
+                'beffroi-de-bruges'       => 'Flandre occidentale',
+                'chateau-des-comtes-gand' => 'Flandre orientale',
+                'cathedrale-anvers'       => 'Anvers',
+                'waterloo'                => 'Brabant wallon',
+                'beffroi-mons'            => 'Hainaut',
+                'cathedrale-tournai'      => 'Hainaut',
+                'citadelle-dinant'        => 'Namur',
+                'liege'                   => 'Liège',
         ];
 
         foreach ($provinces as $slug => $province) {

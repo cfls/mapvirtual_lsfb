@@ -141,7 +141,13 @@ function _initLeafletMap(el) {
             map.setView(visibleMarkers[0].getLatLng(), 11);
         } else {
             const bounds = window.L.latLngBounds(visibleMarkers.map((m) => m.getLatLng()));
-            map.fitBounds(bounds, { padding: [48, 48] });
+            // All markers share the same coordinates → zero-area bounds; fitBounds
+            // would zoom to street level. Fall back to a city-level view instead.
+            if (bounds.getNorth() === bounds.getSouth() && bounds.getEast() === bounds.getWest()) {
+                map.setView(bounds.getCenter(), 13);
+            } else {
+                map.fitBounds(bounds, { padding: [48, 48] });
+            }
         }
     };
 }
