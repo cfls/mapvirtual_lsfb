@@ -4,7 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Carte LSFB — Decouvrez la Belgique en langue des signes' }}</title>
+    <meta name="description" content="Découvrez les musées et lieux culturels de Belgique avec des vidéos en LSFB, des informations accessibles et une expérience pensée pour les personnes sourdes.">
+    <link rel="canonical" href="{{ url('/') }}">
+    <link
+            rel="icon"
+            type="image/png"
+            href="{{ asset('images/cfls.png') }}"
+    >
+    <link
+            rel="apple-touch-icon"
+            href="{{ asset('images/cfls.png') }}"
+    >
+    <!-- Open Graph (Facebook, LinkedIn, etc.) -->
+    <meta property="og:type" content="website">
+    <meta
+            property="og:title"
+            content="Visite Museum — Découvrez les musées en LSFB"
+    >
+    <meta
+            property="og:description"
+            content="Explorez les musées et lieux culturels de Belgique grâce à des vidéos en LSFB et des informations accessibles."
+    >
+    <meta
+            property="og:image"
+            content="{{ asset('images/visite-museum-lsfb.png') }}"
+    >
+    <meta property="og:url" content="{{ url('/') }}">
+    <meta property="og:locale" content="fr_BE">
+    <meta property="og:site_name" content="Visite Museum">
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta
+            name="twitter:title"
+            content="Visite Museum — Découvrez les musées en LSFB"
+    >
+    <meta
+            name="twitter:description"
+            content="Explorez les musées et lieux culturels de Belgique avec des vidéos en LSFB et des informations accessibles."
+    >
+    <meta
+            name="twitter:image"
+            content="{{ asset('images/visite-museum-lsfb.png') }}"
+    >
     {{-- Apply saved accessibility preference before first paint, to avoid a flash of the wrong theme --}}
     <script>
         (function () {
